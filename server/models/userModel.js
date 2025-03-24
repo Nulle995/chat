@@ -8,7 +8,18 @@ export class UserModel {
     return newUser;
   }
 
+  static async login({ username }) {
+    const user = await prisma.user.findFirst({ where: username });
+    return user.password;
+  }
+
+  static async logout({ token }) {
+    const refreshToken = await prisma.refreshToken.delete({ where: { token } });
+    return refreshToken;
+  }
+
   static async createRefreshToken({ token }) {
     const refreshToken = await prisma.refreshToken.create({ data: { token } });
+    return refreshToken.token;
   }
 }
