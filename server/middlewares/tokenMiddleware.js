@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ACCESS_KEY } from "../constants/tokens";
+import { ACCESS_KEY } from "../constants/tokens.js";
 
 export function authenticateAccessToken(req, res, next) {
   const accessToken = req.cookies.accessToken;
