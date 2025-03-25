@@ -33,7 +33,7 @@ model Message {
   authorId String
   author   User     @relation(fields: [authorId], references: [id])
   chatId   String
-  chat     Chat     @relation(fields: [chatId], references: [id])
+  chat     Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
 }
 
 model RefreshToken {
