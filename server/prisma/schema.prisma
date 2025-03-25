@@ -29,7 +29,7 @@ model Chat {
 model Message {
   id       String   @id @default(uuid())
   content  String
-  date     DateTime
+  date     DateTime @default(now())
   authorId String
   author   User     @relation(fields: [authorId], references: [id])
   chatId   String
