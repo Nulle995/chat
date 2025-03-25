@@ -1,7 +1,8 @@
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import express, { json } from "express";
 import { Server } from "socket.io";
 import { createServer } from "node:http";
-import cors from "cors";
 
 const app = express();
 
@@ -14,6 +15,7 @@ const io = new Server(server, {
 
 app.use(json());
 app.use(cors());
+app.use(cookieParser());
 
 const PORT = 3001;
 

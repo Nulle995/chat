@@ -24,7 +24,6 @@ export class UserController {
 
   static async login(req, res) {
     const { username, password } = req.body;
-    const cookies = new Cookies(req, res);
     try {
       const validatedData = await UserValidation.create({ username, password });
       const hashedPassword = await UserModel.login({ username });
@@ -35,8 +34,8 @@ export class UserController {
       const saveRefreshToken = await UserModel.createRefreshToken({
         refreshToken,
       });
-      cookies.set("accessToken", accessToken, { httpOnly: true });
-      cookies.set("refreshToken", refreshToken, { httpOnly: true });
+      res.cookie("accessToken", accessToken, { httpOnly: true });
+      res.cookie("refreshToken", refreshToken, { httpOnly: true });
       res.status(201).json({ user: username });
     } catch (e) {
       res.status(400).json({ error: e.message });
@@ -44,12 +43,13 @@ export class UserController {
   }
 
   static async logout(req, res) {
-    const cookies = new Cookies(req, res);
     try {
-      const refreshToken = cookies.get("refreshToken");
+      const refreshToken = req.cookies.refreshToken;
       if (!refreshToken) throw new Error("Invalid token.");
       const deletedToken = await UserModel.logout({ refreshToken });
       if (!deletedToken) throw new Error("Invalid token.");
+      res.clearCookie("accessToken");
+      res.clearCookie("refreshToken");
       res.status(200).json({ message: "Logout successfully" });
     } catch (e) {
       res.status(400).json({ error: e.message });
