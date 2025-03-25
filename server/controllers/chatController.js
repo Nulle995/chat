@@ -25,4 +25,14 @@ export class ChatController {
       res.status(400).json({ error: e.message });
     }
   }
+
+  static async getAll(req, res) {
+    try {
+      const chatList = await ChatModel.getAll();
+      if (!chatList) throw new Error("No chat rooms founded.");
+      res.json(chatList);
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
+  }
 }

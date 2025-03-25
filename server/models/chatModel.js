@@ -22,4 +22,9 @@ export class ChatModel {
     });
     return chat;
   }
+
+  static async getAll() {
+    const chatList = await prisma.chat.findMany({ include: { owner: true } });
+    return chatList;
+  }
 }
