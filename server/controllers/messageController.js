@@ -10,6 +10,7 @@ export class MessageController {
         content,
       });
       if (!newMessage) throw new Error("Coulnd't create new message.");
+      console.log(newMessage);
       res.status(201).json({ newMessage });
     } catch (e) {
       res.status(400).json({ error: e.message });
