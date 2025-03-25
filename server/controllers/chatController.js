@@ -13,4 +13,16 @@ export class ChatController {
       res.status(400).json({ error: e.message });
     }
   }
+
+  static async getOne(req, res) {
+    const { chatName } = req.body;
+    try {
+      const chat = await ChatModel.getOne({ name: chatName });
+      if (!chat) throw new Error("Chat not found.");
+      res.json(chat);
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ error: e.message });
+    }
+  }
 }
