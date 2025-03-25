@@ -28,7 +28,9 @@ export default function initializeSocketIO(server) {
           chatName: room,
           content: message,
         });
+
         if (!newMessage) throw new Error("Couldn't create new message.");
+
         io.to(room).emit("receive message", {
           username,
           message: newMessage,
