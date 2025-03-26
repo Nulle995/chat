@@ -1,9 +1,11 @@
 -auth
---newAccessToken
---verifyRefreshToken
-
--routes
---all + tokenMiddleware
+--auth/me verifyAccessToken + middleware
 
 -validations
 --all + zod
+
+
+client
+
+-usercontext
+--verifyAccessToken

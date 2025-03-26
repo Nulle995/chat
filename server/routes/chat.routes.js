@@ -5,5 +5,5 @@ import { authenticateAccessToken } from "../middlewares/tokenMiddleware.js";
 export const chatRouter = Router();
 
 chatRouter.get("/all", ChatController.getAll);
-chatRouter.get("/:name", ChatController.getOne);
+chatRouter.get("/", ChatController.getOne);
 chatRouter.post("/", authenticateAccessToken, ChatController.create);
