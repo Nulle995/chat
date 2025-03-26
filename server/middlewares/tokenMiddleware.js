@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ACCESS_KEY } from "../constants/tokens.js";
+import { ACCESS_KEY, REFRESH_KEY } from "../constants/tokens.js";
 
 export function authenticateAccessToken(req, res, next) {
   const accessToken = req.cookies.accessToken;
@@ -13,4 +13,18 @@ export function authenticateAccessToken(req, res, next) {
     req.user = user;
     next();
   });
+}
+
+export function getNewAccessToken(req, res) {
+  const { refreshToken } = req.cookies;
+  try {
+    if (!refreshToken) throw new Error("Invalid token.");
+    jwt.verify(refreshToken, REFRESH_KEY, (err, user) => {
+      if (err) throw new Error("Token expired.");
+      const newAccessToken = jwt.sign(user, ACCESS_KEY);
+      res.json({ newAccessToken });
+    });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
 }
