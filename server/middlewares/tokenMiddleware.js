@@ -22,6 +22,7 @@ export function getNewAccessToken(req, res) {
     jwt.verify(refreshToken, REFRESH_KEY, (err, user) => {
       if (err) throw new Error("Token expired.");
       const newAccessToken = jwt.sign(user, ACCESS_KEY);
+      res.cookie("accessToken", newAccessToken, { httpOnly: true });
       res.json({ newAccessToken });
     });
   } catch (e) {
