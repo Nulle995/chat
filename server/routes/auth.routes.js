@@ -4,7 +4,7 @@ import {
   getNewAccessToken,
 } from "../middlewares/tokenMiddleware.js";
 
-const authRouter = Router();
+export const authRouter = Router();
 
 authRouter.get("/token/refresh", getNewAccessToken);
 authRouter.get("/token/access", authenticateAccessToken);
