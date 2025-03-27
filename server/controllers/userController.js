@@ -35,7 +35,6 @@ export class UserController {
       const refreshToken = jwt.sign({ username }, REFRESH_KEY, {
         expiresIn: "20d",
       });
-      console.log(refreshToken);
 
       const saveRefreshToken = await UserModel.createRefreshToken({
         token: refreshToken,
