@@ -1,10 +1,11 @@
 import Login from "../components/Login";
 import Logout from "../components/Logout";
+import Register from "../components/Register";
 
 const Home = () => {
   return (
     <div>
-      Home <Login /> <Logout />{" "}
+      Home <Login /> <Logout /> <Register />{" "}
     </div>
   );
 };
