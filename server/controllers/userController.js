@@ -52,7 +52,7 @@ export class UserController {
     try {
       const refreshToken = req.cookies.refreshToken;
       if (!refreshToken) throw new Error("Invalid token.");
-      const deletedToken = await UserModel.logout({ refreshToken });
+      const deletedToken = await UserModel.logout({ token: refreshToken });
       if (!deletedToken) throw new Error("Invalid token.");
       res.clearCookie("accessToken");
       res.clearCookie("refreshToken");
