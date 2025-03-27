@@ -9,13 +9,13 @@ import { messageRouter } from "./routes/message.routes.js";
 import { userRouter } from "./routes/user.routes.js";
 
 const app = express();
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(json());
-app.use(cors());
 app.use(cookieParser());
-app.use("auth", authRouter);
-app.use("chat", chatRouter);
-app.use("messages", messageRouter);
-app.use("user", userRouter);
+app.use("/auth", authRouter);
+app.use("/chat", chatRouter);
+app.use("/messages", messageRouter);
+app.use("/user", userRouter);
 const server = createServer(app);
 const io = initializeSocketIO(server);
 

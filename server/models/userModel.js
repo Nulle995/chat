@@ -9,7 +9,7 @@ export class UserModel {
   }
 
   static async login({ username }) {
-    const user = await prisma.user.findFirst({ where: username });
+    const user = await prisma.user.findFirst({ where: { username } });
     return user.password;
   }
 
@@ -19,6 +19,7 @@ export class UserModel {
   }
 
   static async createRefreshToken({ token }) {
+    console.log(token);
     const refreshToken = await prisma.refreshToken.create({ data: { token } });
     return refreshToken.token;
   }
