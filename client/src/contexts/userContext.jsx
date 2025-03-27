@@ -6,8 +6,12 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState();
   useEffect(() => {
     const getUserData = async () => {
-      const res = await API.get("auth/token/me");
-      console.log(res);
+      try {
+        const res = await API.get("auth/token/me");
+        console.log(res);
+      } catch (e) {
+        console.log(e);
+      }
     };
     getUserData();
   }, []);
