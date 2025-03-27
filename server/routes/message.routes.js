@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { MessageController } from "../controllers/messageController";
-import { authenticateAccessToken } from "../middlewares/tokenMiddleware";
+import { MessageController } from "../controllers/messageController.js";
+import { authenticateAccessToken } from "../middlewares/tokenMiddleware.js";
 
 export const messageRouter = Router();
 
