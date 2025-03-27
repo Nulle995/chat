@@ -1,4 +1,4 @@
-import { MessageModel } from "../models/messageModel";
+import { MessageModel } from "../models/messageModel.js";
 
 export class MessageService {
   static async create({ username, chatName, content }) {
