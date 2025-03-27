@@ -21,7 +21,7 @@ export function getNewAccessToken(req, res) {
     if (!refreshToken) throw new Error("Invalid token.");
     jwt.verify(refreshToken, REFRESH_KEY, (err, user) => {
       if (err) throw new Error("Token expired.");
-      const newAccessToken = jwt.sign(user, ACCESS_KEY, { expiresIn: "5m" });
+      const newAccessToken = jwt.sign(user, ACCESS_KEY);
       res.cookie("accessToken", newAccessToken, { httpOnly: true });
       res.json({ newAccessToken });
     });

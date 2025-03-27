@@ -3,12 +3,12 @@ import { API } from "../services/api.js";
 export const UserContext = createContext({});
 
 export function UserProvider({ children }) {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   useEffect(() => {
     const getUserData = async () => {
       try {
         const res = await API.get("auth/token/me");
-        console.log(res);
+        setUser(res.data.user);
       } catch (e) {
         console.log(e);
       }

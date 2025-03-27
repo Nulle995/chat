@@ -5,26 +5,27 @@ export const API = axios.create({
   withCredentials: true,
 });
 
-API.interceptors.request.use(
-  (respone) => {
-    return respone;
+API.interceptors.response.use(
+  (response) => {
+    return response;
   },
-  async (err) => {
-    const originalRequest = err.config;
+  async (error) => {
+    const originalRequest = error.config;
 
-    if (err.response.status === 440 && !originalRequest._retry) {
+    if (error.response.status === 440 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        await API.get("auth/token/refresh/");
+        await API.get("/auth/token/refresh/");
         return API(originalRequest);
       } catch (e) {
+        console.log("SSSS");
         return Promise.reject(e);
       }
     }
-    if (err.response.status === 401 || err.response.status === 403) {
-      return Promise.reject(err); //
+    if (error.response.status === 401 || error.response.status === 403) {
+      return Promise.reject(error); //
     }
 
-    return Promise.reject(err);
+    return Promise.reject(error);
   }
 );
