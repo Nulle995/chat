@@ -4,8 +4,12 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    const userData = {
+      username: formData.get("username"),
+      password: formData.get("password"),
+    };
     try {
-      const res = await API.post("user", formData);
+      const res = await API.post("user", userData);
       console.log(res);
     } catch (e) {
       console.log(e);

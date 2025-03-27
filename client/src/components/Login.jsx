@@ -4,9 +4,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    const userData = {
+      username: formData.get("username"),
+      password: formData.get("password"),
+    };
     console.log(formData);
     try {
-      const res = await API.post("user/login", formData);
+      const res = await API.post("user/login", userData);
       console.log(res);
     } catch (err) {
       console.log(err);

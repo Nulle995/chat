@@ -3,7 +3,7 @@ import { API } from "../services/api";
 const Logout = () => {
   const handleClick = async () => {
     try {
-      const res = API.get("user/logout");
+      const res = await API.get("user/logout");
       console.log(res);
     } catch (e) {
       console.log(e);
