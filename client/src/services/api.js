@@ -12,7 +12,7 @@ API.interceptors.request.use(
   async (err) => {
     const originalRequest = err.config;
 
-    if (err.respone.status === 440 && !originalRequest._retry) {
+    if (err.response.status === 440 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
         await API.get("auth/token/refresh/");
