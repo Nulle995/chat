@@ -2,7 +2,8 @@ import { ChatModel } from "../models/chatModel.js";
 
 export class ChatController {
   static async create(req, res) {
-    const { name, username } = req.body;
+    const { name } = req.params;
+    const { username } = req.body;
     try {
       const chatExists = await ChatModel.getOne({ name });
       if (chatExists) throw new Error("Chat with that name already exists.");
