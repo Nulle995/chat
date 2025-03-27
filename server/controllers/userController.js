@@ -29,8 +29,12 @@ export class UserController {
       const hashedPassword = await UserModel.login({ username });
       const isValidPassword = await bcrypt.compare(password, hashedPassword);
       if (!isValidPassword) throw new Error("Wrong password.");
-      const accessToken = jwt.sign({ username }, ACCESS_KEY);
-      const refreshToken = jwt.sign({ username }, REFRESH_KEY);
+      const accessToken = jwt.sign({ username }, ACCESS_KEY, {
+        expiresIn: "5m",
+      });
+      const refreshToken = jwt.sign({ username }, REFRESH_KEY, {
+        expiresIn: "20d",
+      });
       const saveRefreshToken = await UserModel.createRefreshToken({
         refreshToken,
       });
