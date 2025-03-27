@@ -29,3 +29,8 @@ export function getNewAccessToken(req, res) {
     res.status(400).json({ error: e.message });
   }
 }
+
+export function decodeAccessToken(req, res) {
+  const { user } = req;
+  res.json({ user });
+}
