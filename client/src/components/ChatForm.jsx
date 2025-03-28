@@ -12,6 +12,8 @@ const ChatForm = () => {
       name: formData.get("name"),
       username: user.username,
     };
+    console.log(chatData);
+
     try {
       const res = await API.post("chat", chatData);
       console.log(res);
