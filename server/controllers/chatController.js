@@ -2,8 +2,7 @@ import { ChatModel } from "../models/chatModel.js";
 
 export class ChatController {
   static async create(req, res) {
-    const { name } = req.params;
-    const { username } = req.body;
+    const { name, username } = req.body;
     try {
       const chatExists = await ChatModel.getOne({ name });
       if (chatExists) throw new Error("Chat with that name already exists.");
@@ -16,9 +15,10 @@ export class ChatController {
   }
 
   static async getOne(req, res) {
-    const { chatName } = req.body;
+    const { name } = req.params;
+
     try {
-      const chat = await ChatModel.getOne({ name: chatName });
+      const chat = await ChatModel.getOne({ name });
       if (!chat) throw new Error("Chat not found.");
       res.json(chat);
     } catch (e) {
