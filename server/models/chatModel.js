@@ -18,7 +18,7 @@ export class ChatModel {
   static async getOne({ name }) {
     const chat = await prisma.chat.findFirst({
       where: { name },
-      include: { owner: true, messages: true },
+      include: { owner: true, messages: { include: { author: true } } },
     });
     return chat;
   }

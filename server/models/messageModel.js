@@ -10,6 +10,9 @@ export class MessageModel {
         author: { connect: { username } },
         chat: { connect: { name: chatName } },
       },
+      include: {
+        author: true,
+      },
     });
     return newMessage;
   }
