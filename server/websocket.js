@@ -12,7 +12,7 @@ export default function initializeSocketIO(server) {
   });
 
   io.on("connection", (socket) => {
-    const { username } = socket.handshake.headers;
+    const { username } = socket.handshake.auth;
     console.log(`Conectado: ${username}`);
 
     socket.on("join room", (room) => {
