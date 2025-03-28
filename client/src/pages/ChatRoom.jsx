@@ -4,6 +4,7 @@ import { API } from "../services/api";
 import { UserContext } from "../contexts/userContext";
 import { io } from "socket.io-client";
 import "../styles/chatRoom.css";
+import MainLayout from "../layouts/MainLayout";
 
 const ChatRoom = () => {
   const { name } = useParams();
@@ -23,6 +24,7 @@ const ChatRoom = () => {
     e.preventDefault();
     if (!user) return;
     const formData = new FormData(e.target);
+    if (!formData.get("content")) return;
     const messageData = {
       content: formData.get("content"),
       chatName: name,
@@ -84,7 +86,7 @@ const ChatRoom = () => {
     scrollChat();
   }, [name]);
   return (
-    <div>
+    <MainLayout>
       {chatRoom && (
         <div className="chat-room-container">
           <div className="chat-data">
@@ -108,7 +110,7 @@ const ChatRoom = () => {
           </form>
         </div>
       )}
-    </div>
+    </MainLayout>
   );
 };
 
