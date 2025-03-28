@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { API } from "../services/api";
 import ChatCard from "./ChatCard";
+import "../styles/chatList.css";
 
 const ChatList = () => {
   const [chatList, setChatList] = useState(null);
@@ -8,7 +9,7 @@ const ChatList = () => {
     const getChats = async () => {
       try {
         const res = await API.get("chat/all");
-        console.log(res);
+        setChatList(res.data);
       } catch (e) {
         console.log(e);
       }
@@ -16,10 +17,10 @@ const ChatList = () => {
     getChats();
   }, []);
   return (
-    <div>
+    <section className="chat-list">
       {chatList &&
         chatList.map((chat) => <ChatCard key={chat.id} chat={chat} />)}
-    </div>
+    </section>
   );
 };
 

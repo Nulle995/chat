@@ -49,6 +49,7 @@ const ChatRoom = () => {
     });
 
     return () => {
+      newSocket.emit("leave room", name);
       newSocket.disconnect();
     };
   }, [name, user]);

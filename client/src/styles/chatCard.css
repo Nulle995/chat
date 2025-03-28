@@ -1,0 +1,29 @@
+.chat-card {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 1rem 1rem 0rem 1rem;
+  .thumbnail {
+    width: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    img {
+      display: block;
+      margin: auto;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+  .info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 1rem;
+    h3 {
+      margin: 0;
+    }
+    p {
+      margin: 0;
+    }
+  }
+}
