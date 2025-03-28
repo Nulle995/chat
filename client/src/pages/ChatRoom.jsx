@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API } from "../services/api";
 import { UserContext } from "../contexts/userContext";
 import { io } from "socket.io-client";
+import "../styles/chatRoom.css";
 
 const ChatRoom = () => {
   const { name } = useParams();
@@ -10,6 +11,13 @@ const ChatRoom = () => {
   const { user } = useContext(UserContext);
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState(null);
+  const [username, setUsername] = useState("");
+  const chatEndRef = useRef(null);
+
+  const scrollChat = () => {
+    if (chatEndRef.current)
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +33,7 @@ const ChatRoom = () => {
       room: name,
       message: formData.get("content"),
     });
+    scrollChat();
     // try {
     //   const res = await API.post("messages", messageData);
     //   console.log(res);
@@ -35,6 +44,8 @@ const ChatRoom = () => {
 
   useEffect(() => {
     if (!user) return;
+    setUsername(user.username);
+
     const newSocket = io("http://localhost:3001", {
       withCredentials: true,
       auth: { username: user.username },
@@ -55,6 +66,10 @@ const ChatRoom = () => {
   }, [name, user]);
 
   useEffect(() => {
+    scrollChat();
+  }, [messages]);
+
+  useEffect(() => {
     const getChatRoom = async () => {
       try {
         const res = await API.get(`chat/${name}`);
@@ -66,6 +81,7 @@ const ChatRoom = () => {
       }
     };
     getChatRoom();
+    scrollChat();
   }, [name]);
   return (
     <div>
@@ -76,10 +92,15 @@ const ChatRoom = () => {
           </div>
           <div className="chat-messages">
             {messages.map((msg) => (
-              <div>
+              <div
+                className={`message ${
+                  username === msg.author.username ? "b" : "a"
+                }`}
+              >
                 <div>{msg.content}</div> <div>{msg.date}</div>
               </div>
             ))}
+            <div ref={chatEndRef}></div>
           </div>
           <form action="" onSubmit={handleSubmit}>
             <input type="text" name="content" />

@@ -1,7 +1,6 @@
 import "../styles/chatCard.css";
 import { Link } from "react-router-dom";
 const ChatCard = ({ chat }) => {
-  console.log(chat);
   return (
     <article className="chat-card">
       <div className="thumbnail">

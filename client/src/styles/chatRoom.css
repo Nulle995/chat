@@ -1,0 +1,40 @@
+.chat-room-container {
+  background-color: rgba(0, 0, 0, 0.5);
+  margin: auto;
+  height: calc(100vh - 4rem);
+  width: 100%;
+  max-width: 600px;
+  border-radius: 4px;
+  position: relative;
+  display: grid;
+  grid-template-areas:
+    "a"
+    "b"
+    "c";
+  grid-template-rows: 10% 80% 10%;
+  .chat-data {
+    grid-area: a;
+  }
+
+  .chat-messages {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    overflow-y: scroll;
+    gap: 1rem;
+    .message {
+      background-color: red;
+      grid-area: b;
+    }
+    .a {
+      align-self: flex-start;
+    }
+    .b {
+      align-self: flex-end;
+    }
+  }
+
+  form {
+    grid-area: c;
+  }
+}
