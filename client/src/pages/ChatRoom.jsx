@@ -14,6 +14,7 @@ const ChatRoom = () => {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState(null);
   const [username, setUsername] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const chatEndRef = useRef(null);
 
   const scrollChat = () => {
@@ -49,7 +50,7 @@ const ChatRoom = () => {
   useEffect(() => {
     if (!user) return;
     setUsername(user.username);
-
+    if (user.role === "admin") setIsAdmin(true);
     const newSocket = io("http://localhost:3001", {
       withCredentials: true,
       auth: { username: user.username },
@@ -95,18 +96,23 @@ const ChatRoom = () => {
             {chatRoom.name}- {chatRoom.owner.username}
           </div>
           <div className="chat-messages">
-            {messages.map((msg) => (
-              <div
-                className={`message ${
-                  username === msg.author.username ? "b" : "a"
-                }`}
-              >
-                <div className="info">
-                  <p>{msg.author.username}</p> *{formatDate(msg.date)}
+            {messages.map((msg) => {
+              const hasPermission = msg.author.username === username || isAdmin;
+              return (
+                <div
+                  className={`message ${
+                    username === msg.author.username ? "b" : "a"
+                  }`}
+                >
+                  <div className="info">
+                    <p>{msg.author.username}</p> *{formatDate(msg.date)}
+                  </div>
+                  <div>
+                    {msg.content} {hasPermission && "delete"}
+                  </div>
                 </div>
-                <div>{msg.content}</div>
-              </div>
-            ))}
+              );
+            })}
             <div ref={chatEndRef}></div>
           </div>
           <form action="" onSubmit={handleSubmit}>
