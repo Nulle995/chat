@@ -4,8 +4,8 @@ import { io } from "socket.io-client";
 import { API } from "../services/api";
 import { UserContext } from "../contexts/userContext";
 import MainLayout from "../layouts/MainLayout";
-import formatDate from "../utils/formatDate";
 import "../styles/chatRoom.css";
+import Message from "../components/Message";
 
 const ChatRoom = () => {
   const { name } = useParams();
@@ -96,27 +96,13 @@ const ChatRoom = () => {
             {chatRoom.name}- {chatRoom.owner.username}
           </div>
           <div className="chat-messages">
-            {messages.map((msg) => {
-              const hasPermission = msg.author.username === username || isAdmin;
-              return (
-                <div
-                  className={`message ${
-                    username === msg.author.username ? "b" : "a"
-                  }`}
-                >
-                  <div className="info">
-                    <p>{msg.author.username}</p> *{formatDate(msg.date)}
-                  </div>
-                  <div>
-                    {msg.content} {hasPermission && "delete"}
-                  </div>
-                </div>
-              );
-            })}
+            {messages.map((msg) => (
+              <Message msg={msg} username={username} isAdmin={isAdmin} />
+            ))}
             <div ref={chatEndRef}></div>
           </div>
           <form action="" onSubmit={handleSubmit}>
-            <input type="text" name="content" />
+            <input type="text" name="content" autoComplete="off" />
             <button>Send</button>
           </form>
         </div>
