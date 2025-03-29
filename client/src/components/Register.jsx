@@ -1,4 +1,5 @@
 import { API } from "../services/api";
+import "../styles/register.css";
 
 const Register = () => {
   const handleSubmit = async (e) => {
@@ -16,7 +17,8 @@ const Register = () => {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="register">
+      <h2>Register an account!</h2>
       <input type="text" name="username" />{" "}
       <input type="password" name="password" />
       <button>Register</button>
