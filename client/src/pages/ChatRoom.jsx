@@ -1,10 +1,11 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { io } from "socket.io-client";
 import { API } from "../services/api";
 import { UserContext } from "../contexts/userContext";
-import { io } from "socket.io-client";
-import "../styles/chatRoom.css";
 import MainLayout from "../layouts/MainLayout";
+import formatDate from "../utils/formatDate";
+import "../styles/chatRoom.css";
 
 const ChatRoom = () => {
   const { name } = useParams();
@@ -35,6 +36,7 @@ const ChatRoom = () => {
       room: name,
       message: formData.get("content"),
     });
+    e.target.reset();
     scrollChat();
     // try {
     //   const res = await API.post("messages", messageData);
@@ -99,7 +101,10 @@ const ChatRoom = () => {
                   username === msg.author.username ? "b" : "a"
                 }`}
               >
-                <div>{msg.content}</div> <div>{msg.date}</div>
+                <div>
+                  {msg.author.username} - {formatDate(msg.date)}
+                </div>
+                <div>{msg.content}</div>
               </div>
             ))}
             <div ref={chatEndRef}></div>
