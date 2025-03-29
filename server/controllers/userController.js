@@ -7,13 +7,14 @@ import Cookies from "cookies";
 
 export class UserController {
   static async create(req, res) {
-    const { username, password } = req.body;
+    const { username, password, role } = req.body;
     try {
       const validatedData = await UserValidation.create({ username, password });
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = await UserModel.create({
         username,
         password: hashedPassword,
+        role,
       });
       if (!newUser) throw new Error("Couln't create the user.");
       res.status(201).json(newUser);
