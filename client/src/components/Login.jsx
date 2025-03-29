@@ -1,4 +1,5 @@
 import { API } from "../services/api";
+import "../styles/login.css";
 
 const Login = () => {
   const handleSubmit = async (e) => {
@@ -17,8 +18,9 @@ const Login = () => {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="username" />{" "}
+    <form onSubmit={handleSubmit} className="login">
+      <h2>Access your account!</h2>
+      <input type="text" name="username" autoComplete="off" />{" "}
       <input type="password" name="password" /> <button>Login</button>
     </form>
   );

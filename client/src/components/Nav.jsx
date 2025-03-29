@@ -19,8 +19,11 @@ const Nav = () => {
       margin: "auto",
       width: "fit-content",
       height: "fit-content",
+      backgroundColor: "rgba(0,0,0,0.9)",
     },
   };
+  Modal.defaultStyles.overlay.backgroundColor = "rgba(0,0,0,0.3)";
+  Modal.defaultStyles.overlay.backdropFilter = "blur(1px)";
   return user ? (
     <>
       <nav>
