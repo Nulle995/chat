@@ -101,8 +101,8 @@ const ChatRoom = () => {
                   username === msg.author.username ? "b" : "a"
                 }`}
               >
-                <div>
-                  {msg.author.username} - {formatDate(msg.date)}
+                <div className="info">
+                  <p>{msg.author.username}</p> *{formatDate(msg.date)}
                 </div>
                 <div>{msg.content}</div>
               </div>
