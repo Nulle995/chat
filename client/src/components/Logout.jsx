@@ -5,6 +5,7 @@ const Logout = () => {
     try {
       const res = await API.get("user/logout");
       console.log(res);
+      window.location.reload();
     } catch (e) {
       console.log(e);
     }

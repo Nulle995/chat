@@ -13,6 +13,7 @@ const Login = () => {
     try {
       const res = await API.post("user/login", userData);
       console.log(res);
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }

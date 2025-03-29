@@ -12,6 +12,7 @@ const Register = () => {
     try {
       const res = await API.post("user", userData);
       console.log(res);
+      window.location.reload();
     } catch (e) {
       console.log(e);
     }
