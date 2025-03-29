@@ -34,3 +34,13 @@ export function decodeAccessToken(req, res) {
   const { user } = req;
   res.json({ user });
 }
+
+export function hasPermission(req, res, next) {
+  const { user } = req;
+  const { author } = req.body;
+  if (user.role === "admin" || user.username === author) {
+    return next();
+  } else {
+    return res.status(403).json({ error: "Unauthorized." });
+  }
+}

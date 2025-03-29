@@ -10,7 +10,7 @@ export class UserModel {
 
   static async login({ username }) {
     const user = await prisma.user.findFirst({ where: { username } });
-    return user.password;
+    return user;
   }
 
   static async logout({ token }) {

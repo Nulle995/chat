@@ -26,15 +26,19 @@ export class UserController {
     const { username, password } = req.body;
     try {
       const validatedData = await UserValidation.create({ username, password });
-      const hashedPassword = await UserModel.login({ username });
-      const isValidPassword = await bcrypt.compare(password, hashedPassword);
+      const user = await UserModel.login({ username });
+      const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword) throw new Error("Wrong password.");
-      const accessToken = jwt.sign({ username }, ACCESS_KEY, {
+      const accessToken = jwt.sign({ username, role: user.role }, ACCESS_KEY, {
         expiresIn: "5m",
       });
-      const refreshToken = jwt.sign({ username }, REFRESH_KEY, {
-        expiresIn: "20d",
-      });
+      const refreshToken = jwt.sign(
+        { username, role: user.role },
+        REFRESH_KEY,
+        {
+          expiresIn: "20d",
+        }
+      );
 
       const saveRefreshToken = await UserModel.createRefreshToken({
         token: refreshToken,

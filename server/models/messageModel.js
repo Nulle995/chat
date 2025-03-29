@@ -16,4 +16,20 @@ export class MessageModel {
     });
     return newMessage;
   }
+
+  static async update({ content, messageId }) {
+    const editedMessage = await prisma.message.update({
+      where: { id: messageId },
+      data: { content },
+      include: { author: true },
+    });
+    return editedMessage;
+  }
+
+  static async delete({ messageId }) {
+    const deletedMessage = await prisma.message.delete({
+      where: { id: messageId },
+    });
+    return deletedMessage;
+  }
 }
