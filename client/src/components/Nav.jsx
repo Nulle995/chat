@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../contexts/userContext";
+import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import Logout from "./Logout";
 import ChatForm from "./ChatForm";
@@ -31,7 +32,7 @@ const Nav = () => {
   return user ? (
     <>
       <nav>
-        <div>Logo</div>
+        <Link to={"/"}>Logo</Link>
         <div>
           <button onClick={openChatFormModal}>Create chat</button>
           <Modal
@@ -48,7 +49,7 @@ const Nav = () => {
     </>
   ) : (
     <nav>
-      <div>Logo</div>
+      <Link to={"/"}>Logo</Link>
       <div>
         <button onClick={openLoginModal}>Login</button>
         <Modal
