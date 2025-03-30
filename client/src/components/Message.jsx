@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 import formatDate from "../utils/formatDate";
 
@@ -7,11 +7,29 @@ const Message = ({ msg, isAdmin, username }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const optionsRef = useRef(null);
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
+  const closeOptionsModal = () => setIsOptionsOpen(false);
+  const openOptionsModal = () => setIsOptionsOpen(true);
   const closeEditModal = () => setIsEditOpen(false);
   const closeDeleteModal = () => setIsDeleteOpen(false);
   const openEditModal = () => setIsEditOpen(true);
   const openDeleteModal = () => setIsDeleteOpen(true);
+
+  useEffect(() => {
+    if (!showOptions) return;
+    const handleClickOutside = (e) => {
+      if (optionsRef.current && !optionsRef.current.contains(e.target)) {
+        setShowOptions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showOptions]);
 
   const handleClick = () => {
     setShowOptions(!showOptions);
@@ -34,7 +52,7 @@ const Message = ({ msg, isAdmin, username }) => {
           {hasPermission && (
             <div className="options">
               <div onClick={handleClick}>{`${showOptions ? "❌" : "⋯"}`}</div>
-              <div className={`hide ${showOptions && "show"}`}>
+              <div className={`hide ${showOptions && "show"}`} ref={optionsRef}>
                 <p onClick={openDeleteModal}>delete</p>
                 <Modal
                   isOpen={isDeleteOpen}
