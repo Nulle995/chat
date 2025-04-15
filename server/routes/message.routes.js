@@ -8,5 +8,15 @@ import {
 export const messageRouter = Router();
 
 messageRouter.post("/", authenticateAccessToken, MessageController.create);
-messageRouter.patch("/", hasPermission, MessageController.update);
-messageRouter.delete("/", hasPermission, MessageController.delete);
+messageRouter.patch(
+  "/",
+  authenticateAccessToken,
+  hasPermission,
+  MessageController.update
+);
+messageRouter.delete(
+  "/",
+  authenticateAccessToken,
+  hasPermission,
+  MessageController.delete
+);

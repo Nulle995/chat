@@ -4,4 +4,8 @@ export class MessageService {
   static async create({ username, chatName, content }) {
     return await MessageModel.create({ username, chatName, content });
   }
+
+  static async update({ content, messageId }) {
+    return await MessageModel.update({ content, messageId });
+  }
 }

@@ -40,6 +40,19 @@ export default function initializeSocketIO(server) {
       }
     });
 
+    socket.on("edited message", async ({ room, message, messageId }) => {
+      console.log(room, message);
+      try {
+        const editedMessage = await MessageService.update({
+          content: message,
+          messageId,
+        });
+        io.to(room).emit("message edited", editedMessage);
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
     socket.on("leave room", (room) => {
       socket.leave(room);
       console.log(`${username} leave ${room}`);

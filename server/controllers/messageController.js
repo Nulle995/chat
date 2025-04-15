@@ -19,9 +19,12 @@ export class MessageController {
 
   static async update(req, res) {
     const { content, messageId } = req.body;
+    console.log(content, messageId);
+
     try {
       const newMessage = await MessageModel.update({ content, messageId });
       if (!newMessage) throw new Error("Couldn't update the message.");
+      console.log(newMessage);
       res.json({ newMessage });
     } catch (e) {
       res.status(204).json({ error: e.message });
