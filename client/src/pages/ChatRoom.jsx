@@ -64,6 +64,16 @@ const ChatRoom = () => {
       setMessages((prev) => [...prev, message]);
     });
 
+    newSocket.on("message edited", (editedMsg) => {
+      console.log(editedMsg);
+      setMessages((prev) =>
+        prev.map((msg) => {
+          console.log(msg);
+          return msg.id === editedMsg.id ? editedMsg : msg;
+        })
+      );
+    });
+
     return () => {
       newSocket.emit("leave room", name);
       newSocket.disconnect();
@@ -97,7 +107,14 @@ const ChatRoom = () => {
           </div>
           <div className="chat-messages">
             {messages.map((msg) => (
-              <Message msg={msg} username={username} isAdmin={isAdmin} />
+              <Message
+                msg={msg}
+                username={username}
+                isAdmin={isAdmin}
+                key={msg.id}
+                socket={socket}
+                chatRoom={name}
+              />
             ))}
             <div ref={chatEndRef}></div>
           </div>

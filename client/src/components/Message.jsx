@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 import formatDate from "../utils/formatDate";
+import { API } from "../services/api";
 
-const Message = ({ msg, isAdmin, username }) => {
+const Message = ({ msg, isAdmin, username, socket, chatRoom }) => {
   const hasPermission = msg.author.username === username || isAdmin;
+  const [editedMessage, setEditedMessage] = useState(msg.content);
   const [showOptions, setShowOptions] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -12,10 +14,32 @@ const Message = ({ msg, isAdmin, username }) => {
 
   const closeOptionsModal = () => setIsOptionsOpen(false);
   const openOptionsModal = () => setIsOptionsOpen(true);
-  const closeEditModal = () => setIsEditOpen(false);
+  const closeEditModal = () => {
+    setEditedMessage(msg.content);
+    setIsEditOpen(false);
+  };
   const closeDeleteModal = () => setIsDeleteOpen(false);
   const openEditModal = () => setIsEditOpen(true);
   const openDeleteModal = () => setIsDeleteOpen(true);
+
+  const handleEditMessage = async () => {
+    socket.emit("edited message", {
+      message: editedMessage,
+      room: chatRoom,
+      messageId: msg.id,
+    });
+    setIsEditOpen(false);
+    // try {
+    //   const res = await API.patch("messages", {
+    //     messageId: msg.id,
+    //     content: editedMessage,
+    //     author: msg.author.username,
+    //   });
+    //   console.log(res);
+    // } catch (e) {
+    //   console.log(e);
+    // }
+  };
 
   useEffect(() => {
     if (!showOptions) return;
@@ -69,7 +93,14 @@ const Message = ({ msg, isAdmin, username }) => {
                   shouldCloseOnOverlayClick={true}
                   style={customStyles}
                 >
-                  <p>ererfffff</p>
+                  <input
+                    type="text"
+                    value={editedMessage}
+                    onChange={(e) => setEditedMessage(e.target.value)}
+                    autoFocus
+                  />
+                  <button onClick={handleEditMessage}>✔️</button>
+                  <button onClick={closeEditModal}>❌</button>
                 </Modal>
               </div>
             </div>
