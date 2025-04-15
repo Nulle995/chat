@@ -8,4 +8,8 @@ export class MessageService {
   static async update({ content, messageId }) {
     return await MessageModel.update({ content, messageId });
   }
+
+  static async delete({ messageId }) {
+    return await MessageModel.delete({ messageId });
+  }
 }

@@ -53,6 +53,15 @@ export default function initializeSocketIO(server) {
       }
     });
 
+    socket.on("delete message", async ({ room, messageId }) => {
+      try {
+        const deletedMessage = await MessageService.delete({ messageId });
+        io.to(room).emit("message deleted", messageId);
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
     socket.on("leave room", (room) => {
       socket.leave(room);
       console.log(`${username} leave ${room}`);
