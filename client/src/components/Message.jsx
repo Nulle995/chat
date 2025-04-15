@@ -40,6 +40,12 @@ const Message = ({ msg, isAdmin, username, socket, chatRoom }) => {
     //   console.log(e);
     // }
   };
+  const handleDeleteMessage = () => {
+    socket.emit("delete message", {
+      messageId: msg.id,
+      room: chatRoom,
+    });
+  };
 
   useEffect(() => {
     if (!showOptions) return;
@@ -84,7 +90,8 @@ const Message = ({ msg, isAdmin, username, socket, chatRoom }) => {
                   shouldCloseOnOverlayClick={true}
                   style={customStyles}
                 >
-                  <p>sssss</p>
+                  <button onClick={handleDeleteMessage}>♻️</button>
+                  <button onClick={closeDeleteModal}>❌</button>
                 </Modal>
                 <p onClick={openEditModal}>Edit</p>
                 <Modal

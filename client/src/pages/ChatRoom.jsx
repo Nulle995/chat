@@ -74,6 +74,14 @@ const ChatRoom = () => {
       );
     });
 
+    newSocket.on("message deleted", (messageId) => {
+      setMessages((prev) =>
+        prev.filter((msg) => {
+          return msg.id !== messageId;
+        })
+      );
+    });
+
     return () => {
       newSocket.emit("leave room", name);
       newSocket.disconnect();
