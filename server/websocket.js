@@ -14,9 +14,16 @@ export default function initializeSocketIO(server) {
   io.on("connection", (socket) => {
     const { username } = socket.handshake.auth;
     console.log(`Conectado: ${username}`);
+    socket.joinedRooms = new Set();
 
-    socket.on("join room", (room) => {
+    socket.on("join room", async (room) => {
       socket.join(room);
+      socket.joinedRooms.add(room);
+      const connectedUsers = (await io.in(room).fetchSockets()).map((s) => {
+        return s.handshake.auth;
+      }).length;
+      console.log(connectedUsers);
+      io.to(room).emit("connected user", connectedUsers);
       console.log(`${username} joined ${room}`);
     });
 
@@ -62,11 +69,27 @@ export default function initializeSocketIO(server) {
       }
     });
 
-    socket.on("leave room", (room) => {
+    socket.on("leave room", async (room) => {
       socket.leave(room);
+      const connectedUsers = (await io.in(room).fetchSockets()).map((s) => {
+        return s.handshake.auth;
+      }).length;
+      console.log(connectedUsers);
+
+      io.to(room).emit("connected user", connectedUsers);
       console.log(`${username} leave ${room}`);
+    });
+    socket.on("disconnect", async () => {
+      for (const room of socket.joinedRooms) {
+        const connectedUsers = (await io.in(room).fetchSockets()).map((s) => {
+          return s.handshake.auth;
+        }).length;
+        console.log(connectedUsers);
+        io.to(room).emit("connected user", connectedUsers);
+      }
     });
   });
 
+  io.on("disconnect", () => console.log("hola"));
   return io;
 }
