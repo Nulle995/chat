@@ -15,6 +15,7 @@ const ChatRoom = () => {
   const [messages, setMessages] = useState(null);
   const [username, setUsername] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [usersOnline, setUsersOnline] = useState([]);
   const chatEndRef = useRef(null);
 
   const scrollChat = () => {
@@ -68,7 +69,6 @@ const ChatRoom = () => {
       console.log(editedMsg);
       setMessages((prev) =>
         prev.map((msg) => {
-          console.log(msg);
           return msg.id === editedMsg.id ? editedMsg : msg;
         })
       );
@@ -80,6 +80,11 @@ const ChatRoom = () => {
           return msg.id !== messageId;
         })
       );
+    });
+
+    newSocket.on("connected user", (connectedUsers) => {
+      console.log(connectedUsers);
+      setUsersOnline(connectedUsers);
     });
 
     return () => {
@@ -111,7 +116,10 @@ const ChatRoom = () => {
       {chatRoom && (
         <div className="chat-room-container">
           <div className="chat-data">
-            {chatRoom.name}- {chatRoom.owner.username}
+            {chatRoom.name}- {chatRoom.owner.username} -{" "}
+            {parseInt(usersOnline) === 1
+              ? `${usersOnline} User online`
+              : `${usersOnline} Users online`}
           </div>
           <div className="chat-messages">
             {messages.map((msg) => (
