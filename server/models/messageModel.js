@@ -32,4 +32,13 @@ export class MessageModel {
     });
     return deletedMessage;
   }
+
+  static async getAuthorsFromRoom({ room }) {
+    const authors = await prisma.message.findMany({
+      where: { chat: { name: room } },
+      select: { author: { select: { username: true } } },
+      distinct: ["authorId"],
+    });
+    return authors.map((entry) => entry.author);
+  }
 }

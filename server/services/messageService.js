@@ -12,4 +12,9 @@ export class MessageService {
   static async delete({ messageId }) {
     return await MessageModel.delete({ messageId });
   }
+
+  static async getAuthorsFromRoom({ room }) {
+    const authors = await MessageModel.getAuthorsFromRoom({ room });
+    return authors;
+  }
 }
