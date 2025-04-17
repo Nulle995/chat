@@ -31,7 +31,7 @@ model Chat {
 
 model ChatRoomUser {
   id     String @id @default(uuid())
-  role   Role
+  role   Role   @default(MEMBER)
   chatId String
   chat   Chat   @relation(fields: [chatId], references: [id])
   userId String
