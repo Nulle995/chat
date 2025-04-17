@@ -11,20 +11,40 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(uuid())
-  username String    @unique
-  password String
-  chats    Chat[]
-  messages Message[]
-  role     String?
+  id           String         @id @default(uuid())
+  username     String         @unique
+  password     String
+  chats        Chat[]
+  messages     Message[]
+  role         String?
+  UserChatRole ChatRoomUser[]
 }
 
 model Chat {
-  id       String    @id @default(uuid())
-  name     String    @unique
-  ownerId  String
-  owner    User      @relation(fields: [ownerId], references: [id])
-  messages Message[]
+  id           String         @id @default(uuid())
+  name         String         @unique
+  ownerId      String
+  owner        User           @relation(fields: [ownerId], references: [id])
+  messages     Message[]
+  UserChatRole ChatRoomUser[]
+}
+
+model ChatRoomUser {
+  id     String @id @default(uuid())
+  role   Role
+  chatId String
+  chat   Chat   @relation(fields: [chatId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, chatId])
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MODERATOR
+  MEMBER
 }
 
 model Message {
