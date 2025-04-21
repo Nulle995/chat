@@ -17,6 +17,7 @@ const ChatRoom = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [usersOnline, setUsersOnline] = useState([]);
   const chatEndRef = useRef(null);
+  const [participants, setParticipants] = useState([]);
 
   const scrollChat = () => {
     if (chatEndRef.current)
@@ -87,6 +88,11 @@ const ChatRoom = () => {
       setUsersOnline(connectedUsers);
     });
 
+    newSocket.on("participants", (participants) => {
+      console.log(participants);
+      setParticipants(participants);
+    });
+
     return () => {
       newSocket.emit("leave room", name);
       newSocket.disconnect();
@@ -114,30 +120,45 @@ const ChatRoom = () => {
   return (
     <MainLayout>
       {chatRoom && (
-        <div className="chat-room-container">
-          <div className="chat-data">
-            {chatRoom.name}- {chatRoom.owner.username} -{" "}
-            {parseInt(usersOnline) === 1
-              ? `${usersOnline} User online`
-              : `${usersOnline} Users online`}
+        <div>
+          <div className="chat-room-container">
+            <div className="chat-data">
+              {chatRoom.name}- {chatRoom.owner.username} -{" "}
+              {parseInt(usersOnline) === 1
+                ? `${usersOnline} User online`
+                : `${usersOnline} Users online`}
+            </div>
+            <div className="chat-messages">
+              {messages.map((msg) => (
+                <Message
+                  msg={msg}
+                  username={username}
+                  isAdmin={isAdmin}
+                  key={msg.id}
+                  socket={socket}
+                  chatRoom={name}
+                />
+              ))}
+              <div ref={chatEndRef}></div>
+            </div>
+            <form action="" onSubmit={handleSubmit}>
+              <input type="text" name="content" autoComplete="off" />
+              <button>Send</button>
+            </form>
           </div>
-          <div className="chat-messages">
-            {messages.map((msg) => (
-              <Message
-                msg={msg}
-                username={username}
-                isAdmin={isAdmin}
-                key={msg.id}
-                socket={socket}
-                chatRoom={name}
-              />
-            ))}
-            <div ref={chatEndRef}></div>
+          <div>
+            <h3>Participants</h3>
+            {participants.length > 0
+              ? participants.map((participant) => {
+                  return (
+                    <div>
+                      {participant.username} --
+                      {participant.isOnline ? " online" : " offline"}
+                    </div>
+                  );
+                })
+              : "No participants"}
           </div>
-          <form action="" onSubmit={handleSubmit}>
-            <input type="text" name="content" autoComplete="off" />
-            <button>Send</button>
-          </form>
         </div>
       )}
     </MainLayout>
