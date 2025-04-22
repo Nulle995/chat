@@ -6,6 +6,7 @@ import { UserContext } from "../contexts/userContext";
 import MainLayout from "../layouts/MainLayout";
 import "../styles/chatRoom.css";
 import Message from "../components/Message";
+import Participant from "../components/Participant";
 
 const ChatRoom = () => {
   const { name } = useParams();
@@ -120,7 +121,7 @@ const ChatRoom = () => {
   return (
     <MainLayout>
       {chatRoom && (
-        <div>
+        <div className="chat-room">
           <div className="chat-room-container">
             <div className="chat-data">
               {chatRoom.name}- {chatRoom.owner.username} -{" "}
@@ -146,16 +147,11 @@ const ChatRoom = () => {
               <button>Send</button>
             </form>
           </div>
-          <div>
+          <div className="participants">
             <h3>Participants</h3>
             {participants.length > 0
               ? participants.map((participant) => {
-                  return (
-                    <div>
-                      {participant.username} --
-                      {participant.isOnline ? " online" : " offline"}
-                    </div>
-                  );
+                  return <Participant participant={participant} />;
                 })
               : "No participants"}
           </div>

@@ -1,99 +1,139 @@
-.chat-room-container {
-  background-color: rgba(0, 0, 0, 0.5);
-  margin: auto;
-  height: 75vh;
-  width: 100%;
-  max-width: 600px;
-  border-radius: 4px;
-  position: relative;
+.chat-room {
   display: grid;
-  grid-template-areas:
-    "a"
-    "b"
-    "c";
-  grid-template-rows: 10% 80% 10%;
-  .chat-data {
-    grid-area: a;
-  }
+  grid-template-columns: 4fr 1fr;
+  max-width: 800px;
+  margin: auto;
+  .chat-room-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: auto;
+    height: 75vh;
+    width: 100%;
+    border-radius: 4px 0 0px 4px;
+    position: relative;
+    display: grid;
+    grid-template-areas:
+      "a"
+      "b"
+      "c";
+    grid-template-rows: 10% 80% 10%;
+    .chat-data {
+      grid-area: a;
+    }
 
-  .chat-messages {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    overflow-y: scroll;
-    gap: 1rem;
+    .chat-messages {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      overflow-y: scroll;
+      gap: 1rem;
 
-    .message {
-      background-color: rgba(0, 0, 0, 0.4);
-      background-color: #1e3a8a;
-      grid-area: b;
-      max-width: 60%;
-      border-radius: 4px;
-      .info {
-        display: flex;
-        justify-content: space-between;
-        gap: 0.5rem;
-        color: rgb(151, 151, 151);
-        font-size: 0.9rem;
-        align-items: center;
-        margin-bottom: 0.1rem;
-        :first-child {
+      .message {
+        background-color: rgba(0, 0, 0, 0.4);
+        background-color: #1e3a8a;
+        grid-area: b;
+        max-width: 60%;
+        border-radius: 4px;
+        .info {
           display: flex;
+          justify-content: space-between;
+          gap: 0.5rem;
+          color: rgb(151, 151, 151);
+          font-size: 0.9rem;
           align-items: center;
-          gap: 4px;
-        }
-
-        .options {
-          cursor: pointer;
-          position: relative;
-          .hide {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            text-align: left;
-            display: none;
+          margin-bottom: 0.1rem;
+          :first-child {
+            display: flex;
+            align-items: center;
+            gap: 4px;
           }
-          .show {
-            display: block;
-            cursor: default;
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 4px 8px;
-            p {
-              font-size: 0.8rem;
-              font-weight: 100;
-              cursor: pointer;
+
+          .options {
+            cursor: pointer;
+            position: relative;
+            .hide {
+              position: absolute;
+              top: 100%;
+              left: 0;
+              text-align: left;
+              display: none;
+            }
+            .show {
+              display: block;
+              cursor: default;
+              background-color: rgba(0, 0, 0, 0.9);
+              padding: 4px 8px;
+              p {
+                font-size: 0.8rem;
+                font-weight: 100;
+                cursor: pointer;
+              }
             }
           }
-        }
 
-        p {
-          margin: 0;
-          color: rgb(245, 245, 245);
-          font-size: 1rem;
-          font-weight: 500;
+          p {
+            margin: 0;
+            color: rgb(245, 245, 245);
+            font-size: 1rem;
+            font-weight: 500;
+          }
         }
       }
+      .a {
+        align-self: flex-start;
+        text-align: left;
+        padding: 0.25rem 1rem 0.25rem 0.5rem;
+      }
+      .b {
+        align-self: flex-end;
+        text-align: right;
+        padding: 0.25rem 0.5rem 0.25rem 1rem;
+      }
     }
-    .a {
-      align-self: flex-start;
-      text-align: left;
-      padding: 0.25rem 1rem 0.25rem 0.5rem;
-    }
-    .b {
-      align-self: flex-end;
-      text-align: right;
-      padding: 0.25rem 0.5rem 0.25rem 1rem;
+
+    form {
+      grid-area: c;
+      width: 100%;
+      display: flex;
+
+      input {
+        width: 100%;
+        font-size: 1rem;
+      }
     }
   }
-
-  form {
-    grid-area: c;
-    width: 100%;
-    display: flex;
-
-    input {
-      width: 100%;
-      font-size: 1rem;
+  .participants {
+    margin: 0;
+    text-align: left;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 0 4px 4px 0;
+    h3 {
+      margin: 0;
+    }
+    .participant {
+      position: relative;
+      padding-left: 12px;
+    }
+    .participant.online::before {
+      position: absolute;
+      content: "";
+      width: 8px;
+      height: 8px;
+      background-color: green;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 50%;
+    }
+    .participant.offline::before {
+      position: absolute;
+      content: "";
+      width: 8px;
+      height: 8px;
+      background-color: red;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 50%;
     }
   }
 }
