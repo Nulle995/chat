@@ -35,7 +35,7 @@ model ChatRoomUser {
   chatId String
   chat   Chat   @relation(fields: [chatId], references: [id])
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, chatId])
 }
