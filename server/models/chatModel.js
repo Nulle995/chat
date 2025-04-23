@@ -4,15 +4,24 @@ const prisma = new PrismaClient();
 
 export class ChatModel {
   static async create({ name, username }) {
-    const newChat = await prisma.chat.create({
-      data: {
-        name,
-        owner: {
-          connect: { username },
+    await prisma.$transaction(async (tx) => {
+      const newChat = await tx.chat.create({
+        data: {
+          name,
+          owner: {
+            connect: { username },
+          },
         },
-      },
+      });
+      const newAdmin = await tx.chatRoomUser.create({
+        data: {
+          chatId: newChat.id,
+          userId: newChat.ownerId,
+          role: "OWNER",
+        },
+      });
+      return newChat;
     });
-    return newChat;
   }
 
   static async getOne({ name }) {
