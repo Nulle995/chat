@@ -35,7 +35,7 @@ const Nav = () => {
   }, [user]);
   return user ? (
     <>
-      <nav>
+      <nav className="main-nav">
         <Link to={"/"}>Logo </Link>
         <div>
           <Link to="/admin">
