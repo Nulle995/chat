@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/userContext";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
@@ -13,6 +13,7 @@ const Nav = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isChatFormOpen, setIsChatFormOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const openLoginModal = () => setIsLoginOpen(true);
   const closeLoginModal = () => setIsLoginOpen(false);
   const openRegisterModal = () => setIsRegisterOpen(true);
@@ -29,12 +30,18 @@ const Nav = () => {
   };
   Modal.defaultStyles.overlay.backgroundColor = "rgba(0,0,0,0.3)";
   Modal.defaultStyles.overlay.backdropFilter = "blur(1px)";
+  useEffect(() => {
+    if (user && user.role === "admin") setIsAdmin(true);
+  }, [user]);
   return user ? (
     <>
       <nav>
-        <Link to={"/"}>Logo</Link>
+        <Link to={"/"}>Logo </Link>
         <div>
-          <button onClick={openChatFormModal}>Create chat</button>
+          <Link to="/admin">
+            <button>Admin Panel</button>
+          </Link>
+          <button onClick={openChatFormModal}>Create Chat</button>
           <Modal
             isOpen={isChatFormOpen}
             onRequestClose={closeChatFormModal}
