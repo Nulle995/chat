@@ -109,7 +109,6 @@ async function getChatParticipantsStatus(io, chatName) {
     ...user,
     isOnline: usernames.includes(user.username),
   }));
-  console.log(participants);
 
   return participants;
 }

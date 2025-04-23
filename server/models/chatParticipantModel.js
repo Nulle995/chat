@@ -20,8 +20,10 @@ export class ChatParticipantModel {
   static async getParticipantsFromRoom({ room }) {
     const participants = await prisma.chatRoomUser.findMany({
       where: { chat: { name: room } },
-      select: { user: { select: { username: true } } },
+      select: { user: { select: { username: true } }, role: true },
     });
-    return participants.map((p) => p.user);
+    return participants.map((p) => {
+      return { ...p.user, role: p.role };
+    });
   }
 }
