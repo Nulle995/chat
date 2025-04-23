@@ -5,7 +5,6 @@ import Login from "../components/Login";
 import Logout from "../components/Logout";
 import Register from "../components/Register";
 import { UserContext } from "../contexts/userContext";
-import "../styles/home.css";
 import MainLayout from "../layouts/MainLayout";
 
 const Home = () => {
