@@ -27,7 +27,14 @@ export class UserModel {
   }
 
   static async getAll() {
-    const allUsers = await prisma.user.findMany();
+    const allUsers = await prisma.user.findMany({
+      select: {
+        id: true,
+        username: true,
+        role: true,
+        _count: true,
+      },
+    });
     return allUsers;
   }
 }
