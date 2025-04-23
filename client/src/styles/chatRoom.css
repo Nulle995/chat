@@ -17,6 +17,12 @@
       "c";
     grid-template-rows: 10% 80% 10%;
     .chat-data {
+      position: relative;
+      :first-child {
+        position: absolute;
+        left: 1rem;
+        cursor: pointer;
+      }
       grid-area: a;
     }
 

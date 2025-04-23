@@ -124,10 +124,13 @@ const ChatRoom = () => {
         <div className="chat-room">
           <div className="chat-room-container">
             <div className="chat-data">
-              {chatRoom.name}- {chatRoom.owner.username} -{" "}
-              {parseInt(usersOnline) === 1
-                ? `${usersOnline} User online`
-                : `${usersOnline} Users online`}
+              <div>⚙️</div>
+              <div>
+                {chatRoom.name}- {chatRoom.owner.username} -{" "}
+                {parseInt(usersOnline) === 1
+                  ? `${usersOnline} User online`
+                  : `${usersOnline} Users online`}
+              </div>
             </div>
             <div className="chat-messages">
               {messages.map((msg) => (
