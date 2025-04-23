@@ -44,3 +44,9 @@ export function hasPermission(req, res, next) {
     return res.status(403).json({ error: "Unauthorized." });
   }
 }
+
+export function isAdmin(req, res, next) {
+  const { user } = req;
+  if (user.role === "admin") return next();
+  else return res.status(401).json({ error: "Unauthorized." });
+}
