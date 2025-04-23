@@ -7,11 +7,13 @@ const AdminPanel = () => {
     <MainLayout>
       <aside>
         <h2>Admin Panel</h2>
-        <nav className="links">
-          <NavLink to="/admin/users" />
-          Users
+        <nav>
+          <NavLink to="/admin/users">Users</NavLink>
         </nav>
       </aside>
+      <main>
+        <Outlet />
+      </main>
     </MainLayout>
   );
 };

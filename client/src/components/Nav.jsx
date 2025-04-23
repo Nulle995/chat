@@ -55,7 +55,7 @@ const Nav = () => {
       </nav>
     </>
   ) : (
-    <nav>
+    <nav className="main-nav">
       <Link to={"/"}>Logo</Link>
       <div>
         <button onClick={openLoginModal}>Login</button>

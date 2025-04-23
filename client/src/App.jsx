@@ -10,7 +10,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/chat/:name" element={<ChatRoom />} />
-        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/admin" element={<AdminPanel />}>
+          <Route index />
+          <Route path="users" />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
