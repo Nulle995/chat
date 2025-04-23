@@ -22,8 +22,12 @@ export class UserModel {
   }
 
   static async createRefreshToken({ token }) {
-    console.log(token);
     const refreshToken = await prisma.refreshToken.create({ data: { token } });
     return refreshToken.token;
+  }
+
+  static async getAll() {
+    const allUsers = await prisma.user.findMany();
+    return allUsers;
   }
 }

@@ -65,4 +65,14 @@ export class UserController {
       res.status(400).json({ error: e.message });
     }
   }
+
+  static async getAll(req, res) {
+    try {
+      const allUsers = await UserModel.getAll();
+      if (!allUsers) throw new Error("No users found.");
+      res.json(allUsers);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
