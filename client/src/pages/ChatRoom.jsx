@@ -16,6 +16,7 @@ const ChatRoom = () => {
   const [messages, setMessages] = useState(null);
   const [username, setUsername] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
   const [usersOnline, setUsersOnline] = useState([]);
   const chatEndRef = useRef(null);
   const [participants, setParticipants] = useState([]);
@@ -92,6 +93,11 @@ const ChatRoom = () => {
     newSocket.on("participants", (participants) => {
       console.log(participants);
       setParticipants(participants);
+      participants.forEach((participant) => {
+        if (participant.role === "OWNER") {
+          setIsOwner(participant.username);
+        }
+      });
     });
 
     return () => {
@@ -124,7 +130,7 @@ const ChatRoom = () => {
         <div className="chat-room">
           <div className="chat-room-container">
             <div className="chat-data">
-              <div>⚙️</div>
+              <div>{isOwner && "⚙️"} </div>
               <div>
                 {chatRoom.name}- {chatRoom.owner.username} -{" "}
                 {parseInt(usersOnline) === 1
