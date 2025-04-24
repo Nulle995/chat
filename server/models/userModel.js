@@ -26,15 +26,25 @@ export class UserModel {
     return refreshToken.token;
   }
 
-  static async getAll() {
-    const allUsers = await prisma.user.findMany({
-      select: {
-        id: true,
-        username: true,
-        role: true,
-        _count: true,
-      },
-    });
-    return allUsers;
+  static async getAll({ search = "", skip = 0, limit = 20 }) {
+    const where = search
+      ? { username: { contains: search, mode: "insensitive" } }
+      : {};
+    const [allUsers, total] = await Promise.all([
+      prisma.user.findMany({
+        skip,
+        take: limit,
+        where,
+        select: {
+          id: true,
+          username: true,
+          role: true,
+          _count: true,
+        },
+      }),
+      prisma.user.count({ where }),
+    ]);
+    console.log(allUsers);
+    return { allUsers, total };
   }
 }

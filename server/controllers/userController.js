@@ -67,10 +67,35 @@ export class UserController {
   }
 
   static async getAll(req, res) {
+    const skip = parseInt(req.query.skip) || 0;
+    const limit = parseInt(req.query.limit) || 20;
+    const search = req.query.search || "";
+    const baseUrl = `${req.protocol}://${req.get("host")}${req.path}`;
+    const nextSkip = skip + limit;
+
     try {
-      const allUsers = await UserModel.getAll();
+      const { allUsers, total } = await UserModel.getAll({
+        skip,
+        search,
+        limit,
+      });
+      const next =
+        nextSkip < total
+          ? `${baseUrl}?skip=${nextSkip}&limit=${limit}${
+              search ? `&search=${encodeURIComponent(search)}` : ""
+            }`
+          : null;
+
       if (!allUsers) throw new Error("No users found.");
-      res.json(allUsers);
+      res.json({
+        users: allUsers,
+        total,
+        currentPage: Math.floor(skip / limit) + 1,
+        next,
+      });
+      console.log(Math.floor(skip / limit) + 1);
+      console.log(skip);
+      console.log(limit);
     } catch (e) {
       console.log(e);
     }
