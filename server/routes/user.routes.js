@@ -10,4 +10,4 @@ export const userRouter = Router();
 userRouter.post("/", UserController.create);
 userRouter.post("/login", UserController.login);
 userRouter.get("/logout", UserController.logout);
-userRouter.get("/", authenticateAccessToken, isAdmin, UserController.getAll);
+userRouter.get("/", authenticateAccessToken, isAdmin, UserController.get);
